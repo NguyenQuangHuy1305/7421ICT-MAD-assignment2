@@ -11,6 +11,7 @@ import SwiftUI
 struct PlaceView: View {
     @Environment(\.editMode) var editMode
     @ObservedObject var place: Place
+    @State var image = Image(systemName: "photo")
     
     var body: some View {
         List {
@@ -22,12 +23,12 @@ struct PlaceView: View {
             } else {
                 Text(place.placeLocation)
                 Text(place.placeNote)
-                place.getImage().aspectRatio(contentMode: .fit)
+                image.aspectRatio(contentMode: .fit)
             }
         }
         .navigationTitle(place.placeName)
-        .onAppear {
-            _ = place.getImage()
+        .task {
+            image = await place.getImage()
         }
     }
 }

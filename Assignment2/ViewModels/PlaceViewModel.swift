@@ -12,7 +12,7 @@ import SwiftUI
 extension Place {
     /// viewModel's property for "name" database attribute
     var placeName: String {
-        get { name ?? "<unknown>" }
+        get { name ?? "New Place" }
         set {
             name = newValue
             save()

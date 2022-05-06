@@ -22,6 +22,7 @@ struct ContentView: View {
                 ForEach(Places) { Place in
                     NavigationLink {
                         PlaceView(place: Place)
+                            .navigationBarItems(trailing: EditButton())
                     } label: {
                         PlaceRowView(place: Place)
                     }

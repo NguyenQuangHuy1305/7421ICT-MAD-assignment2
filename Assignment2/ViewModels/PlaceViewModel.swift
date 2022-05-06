@@ -13,14 +13,42 @@ extension Place {
     /// viewModel's property for "name" database attribute
     var placeName: String {
         get { name ?? "<unknown>" }
-        set { name = newValue }
+        set {
+            name = newValue
+            save()
+        }
     }
     var placeLocation: String {
         get { location ?? "" }
-        set { location = newValue }
+        set {
+            location = newValue
+            save()
+        }
     }
     var placeNote: String {
         get { note ?? ""}
-        set { note = newValue }
+        set {
+            note = newValue
+            save()
+        }
+    }
+    var urlString: String{
+        get { imageURL?.absoluteString ?? ""}
+        set {
+            guard let url = URL(string: newValue) else { return }
+            imageURL = url
+            save()
+        }
+    }
+    
+    @discardableResult
+    func save() -> Bool {
+        do {
+            try managedObjectContext?.save()
+        } catch {
+            print("Error saving: \(error)")
+            return false
+        }
+        return true
     }
 }

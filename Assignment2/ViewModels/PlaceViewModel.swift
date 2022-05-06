@@ -10,7 +10,8 @@ import CoreData
 import SwiftUI
 
 let defaultImage = Image(systemName: "photo")
-var downloadedImages = [URL : Image] ()
+var downloadedImages = [URL : Image]()
+var currentlyDownloading = Set<URL>()
 
 extension Place {
     /// viewModel's property for "name" database attribute
@@ -56,12 +57,23 @@ extension Place {
     }
     
     func getImage() -> Image {
+        // if there's no URL then return the default image
         guard let url = imageURL else { return defaultImage }
         if let image = downloadedImages[url] { return image }
-        guard let data = try? Data(contentsOf: url),
-              let uiImg = UIImage(data: data) else {return defaultImage}
-        let image = Image(uiImage: uiImg).resizable()
-        downloadedImages[url] = image
-        return image
+        if currentlyDownloading.contains(url) { return defaultImage }
+        currentlyDownloading.insert(url)
+        
+        DispatchQueue.global(qos: .userInteractive).async {
+            /// try to get the data from URL, then try to convert it into UIImage, else just return nothing
+            guard let data = try? Data(contentsOf: url),
+                  let uiImg = UIImage(data: data) else {return}
+            let image = Image(uiImage: uiImg).resizable()
+            DispatchQueue.main.async {
+                downloadedImages[url] = image
+                currentlyDownloading.remove(url)
+                self.objectWillChange.send()
+            }
+        }
+        return defaultImage
     }
 }

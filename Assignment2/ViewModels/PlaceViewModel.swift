@@ -9,6 +9,9 @@ import Foundation
 import CoreData
 import SwiftUI
 
+let defaultImage = Image(systemName: "photo")
+var downloadedImages = [URL : Image] ()
+
 extension Place {
     /// viewModel's property for "name" database attribute
     var placeName: String {
@@ -50,5 +53,15 @@ extension Place {
             return false
         }
         return true
+    }
+    
+    func getImage() -> Image {
+        guard let url = imageURL else { return defaultImage }
+        if let image = downloadedImages[url] { return image }
+        guard let data = try? Data(contentsOf: url),
+              let uiImg = UIImage(data: data) else {return defaultImage}
+        let image = Image(uiImage: uiImg).resizable()
+        downloadedImages[url] = image
+        return image
     }
 }

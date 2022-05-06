@@ -8,11 +8,10 @@
 import Foundation
 import SwiftUI
 
-let defaultImage = Image(systemName: "photo")
-
 struct PlaceView: View {
     @Environment(\.editMode) var editMode
     @ObservedObject var place: Place
+    @State var image = Image(systemName: "photo")
     
     var body: some View {
         List {
@@ -24,15 +23,17 @@ struct PlaceView: View {
             } else {
                 Text(place.placeLocation)
                 Text(place.placeNote)
-                image(for: place.imageURL).aspectRatio(contentMode: .fit)
+                image.aspectRatio(contentMode: .fit)
             }
-        }.navigationTitle(place.placeName)
-    }
-    
-    func image(for url: URL?) -> Image {
-        guard let url = url,
-              let data = try? Data(contentsOf: url),
-              let uiImg = UIImage(data: data) else {return defaultImage}
-        return Image(uiImage: uiImg).resizable()
+        }
+        .navigationTitle(place.placeName)
+        .onAppear {
+            DispatchQueue.global(qos: .userInteractive).async {
+                let downloadedImage = place.getImage()
+                DispatchQueue.main.async {
+                    image = downloadedImage
+                }
+            }
+        }
     }
 }

@@ -22,21 +22,21 @@ extension Place {
         }
     }
     var placeLocation: String {
-        get { location ?? "" }
+        get { location ?? "Input the location here" }
         set {
             location = newValue
             save()
         }
     }
     var placeNote: String {
-        get { note ?? ""}
+        get { note ?? "Input your note here"}
         set {
             note = newValue
             save()
         }
     }
     var urlString: String{
-        get { imageURL?.absoluteString ?? ""}
+        get { imageURL?.absoluteString ?? "Input your URL here"}
         set {
             guard let url = URL(string: newValue) else { return }
             imageURL = url

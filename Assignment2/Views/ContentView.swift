@@ -46,7 +46,6 @@ struct ContentView: View {
     private func addPlace() {
         withAnimation {
             let newPlace = Place(context: viewContext)
-            newPlace.location = "location"
 
             do {
                 try viewContext.save()

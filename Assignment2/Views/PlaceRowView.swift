@@ -10,8 +10,15 @@ import SwiftUI
 
 struct PlaceRowView: View {
     @ObservedObject var place: Place
-    
+    @State var image = Image(systemName: "photo")
+
     var body: some View {
-        Text(place.placeName)
+        HStack {
+            image.frame(width: 30, height: 20)
+            Text(place.placeName)
+            .task {
+                image = await place.getImage()
+            }
+        }
     }
 }

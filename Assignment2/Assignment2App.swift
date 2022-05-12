@@ -6,9 +6,10 @@
 //
 
 import SwiftUI
+import MapKit
 
 @main
-struct Assignment2App: App {
+struct Assignment2App: App {    
     let persistenceController = PersistenceController.shared
 
     var body: some Scene {

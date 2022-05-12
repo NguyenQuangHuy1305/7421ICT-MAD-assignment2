@@ -19,6 +19,9 @@
 		6BED006A282229B900E5420A /* PlaceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BED0069282229B900E5420A /* PlaceViewModel.swift */; };
 		6BED006C282229D000E5420A /* PlaceRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BED006B282229D000E5420A /* PlaceRowView.swift */; };
 		6BED006E282229DE00E5420A /* PlaceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BED006D282229DE00E5420A /* PlaceView.swift */; };
+		6BED0075282CB15E00E5420A /* AreaViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BED0074282CB15D00E5420A /* AreaViewModel.swift */; };
+		6BED0078282CCE3100E5420A /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BED0077282CCE3100E5420A /* MapKit.framework */; };
+		6BED007A282CD37E00E5420A /* CoordinateRegionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BED0079282CD37E00E5420A /* CoordinateRegionViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -58,6 +61,9 @@
 		6BED00712824C05700E5420A /* Place+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Place+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		6BED0072282CAF5200E5420A /* Area+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Area+CoreDataClass.swift"; sourceTree = "<group>"; };
 		6BED0073282CAF5200E5420A /* Area+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Area+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		6BED0074282CB15D00E5420A /* AreaViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AreaViewModel.swift; sourceTree = "<group>"; };
+		6BED0077282CCE3100E5420A /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		6BED0079282CD37E00E5420A /* CoordinateRegionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoordinateRegionViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -65,6 +71,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6BED0078282CCE3100E5420A /* MapKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -93,6 +100,7 @@
 				6BED004C282091C700E5420A /* Assignment2Tests */,
 				6BED0056282091C700E5420A /* Assignment2UITests */,
 				6BED0035282091C400E5420A /* Products */,
+				6BED0076282CCE3000E5420A /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -157,6 +165,8 @@
 			isa = PBXGroup;
 			children = (
 				6BED0069282229B900E5420A /* PlaceViewModel.swift */,
+				6BED0079282CD37E00E5420A /* CoordinateRegionViewModel.swift */,
+				6BED0074282CB15D00E5420A /* AreaViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -180,6 +190,14 @@
 				6BED00712824C05700E5420A /* Place+CoreDataProperties.swift */,
 			);
 			path = CoreData;
+			sourceTree = "<group>";
+		};
+		6BED0076282CCE3000E5420A /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				6BED0077282CCE3100E5420A /* MapKit.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -315,8 +333,10 @@
 				6BED0041282091C700E5420A /* Persistence.swift in Sources */,
 				6BED006C282229D000E5420A /* PlaceRowView.swift in Sources */,
 				6BED006E282229DE00E5420A /* PlaceView.swift in Sources */,
+				6BED0075282CB15E00E5420A /* AreaViewModel.swift in Sources */,
 				6BED006A282229B900E5420A /* PlaceViewModel.swift in Sources */,
 				6BED003A282091C400E5420A /* ContentView.swift in Sources */,
+				6BED007A282CD37E00E5420A /* CoordinateRegionViewModel.swift in Sources */,
 				6BED0038282091C400E5420A /* Assignment2App.swift in Sources */,
 				6BED0044282091C700E5420A /* Assignment2.xcdatamodeld in Sources */,
 			);

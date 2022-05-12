@@ -56,6 +56,8 @@
 		6BED006D282229DE00E5420A /* PlaceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceView.swift; sourceTree = "<group>"; };
 		6BED00702824C05700E5420A /* Place+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Place+CoreDataClass.swift"; sourceTree = "<group>"; };
 		6BED00712824C05700E5420A /* Place+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Place+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		6BED0072282CAF5200E5420A /* Area+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Area+CoreDataClass.swift"; sourceTree = "<group>"; };
+		6BED0073282CAF5200E5420A /* Area+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Area+CoreDataProperties.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -172,6 +174,8 @@
 		6BED006F2824C01B00E5420A /* CoreData */ = {
 			isa = PBXGroup;
 			children = (
+				6BED0072282CAF5200E5420A /* Area+CoreDataClass.swift */,
+				6BED0073282CAF5200E5420A /* Area+CoreDataProperties.swift */,
 				6BED00702824C05700E5420A /* Place+CoreDataClass.swift */,
 				6BED00712824C05700E5420A /* Place+CoreDataProperties.swift */,
 			);

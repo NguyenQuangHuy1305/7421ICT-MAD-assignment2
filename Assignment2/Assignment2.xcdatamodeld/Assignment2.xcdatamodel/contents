@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="19574" systemVersion="21D49" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="Area" representedClassName="Area" syncable="YES" codeGenerationType="class">
+        <attribute name="areaName" optional="YES" attributeType="String"/>
+    </entity>
     <entity name="Place" representedClassName="Place" syncable="YES" codeGenerationType="class">
         <attribute name="imageURL" optional="YES" attributeType="URI"/>
         <attribute name="location" optional="YES" attributeType="String"/>
@@ -8,5 +11,6 @@
     </entity>
     <elements>
         <element name="Place" positionX="-63" positionY="-18" width="128" height="89"/>
+        <element name="Area" positionX="-63" positionY="9" width="128" height="44"/>
     </elements>
 </model>

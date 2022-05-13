@@ -19,22 +19,20 @@ struct PlaceView: View {
     
     var body: some View {
         List {
-            Section {
-                if editMode?.wrappedValue == .active {
-                    TextField("Enter place's name", text: $place.placeName)
-                    TextField("Enter place's location", text: $place.placeLocation)
-                    TextField("Enter place's note", text: $place.placeNote)
-                    TextField("Enter place's image URL", text: $place.urlString)
-                } else {
-                    Text(place.placeLocation)
-                    Text(place.placeNote)
-                    image.aspectRatio(contentMode: .fit)
-                }
+            if editMode?.wrappedValue == .active {
+                TextField("Enter place's name", text: $place.placeName)
+                TextField("Enter place's location", text: $place.placeLocation)
+                TextField("Enter place's note", text: $place.placeNote)
+                TextField("Enter place's image URL", text: $place.urlString)
+            } else {
+                Text(place.placeLocation)
+                Text(place.placeNote)
+                image.aspectRatio(contentMode: .fit)
             }
-            Section {
+            NavigationLink {
+                MapView(region: $region)
+            } label: {
                 Map(coordinateRegion: $region)
-                TextField("Latitude: ", text: $region.latitudeString)
-                TextField("Longitude: ", text: $region.longitudeString)
             }
         }
         .navigationTitle(place.placeName)

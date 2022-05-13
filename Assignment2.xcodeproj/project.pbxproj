@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6BA538D9282E25F600707D4D /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA538D8282E25F600707D4D /* MapView.swift */; };
 		6BED0038282091C400E5420A /* Assignment2App.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BED0037282091C400E5420A /* Assignment2App.swift */; };
 		6BED003A282091C400E5420A /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BED0039282091C400E5420A /* ContentView.swift */; };
 		6BED003C282091C700E5420A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6BED003B282091C700E5420A /* Assets.xcassets */; };
@@ -42,6 +43,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		6BA538D8282E25F600707D4D /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 		6BED0034282091C400E5420A /* Assignment2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Assignment2.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6BED0037282091C400E5420A /* Assignment2App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Assignment2App.swift; sourceTree = "<group>"; };
 		6BED0039282091C400E5420A /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -177,6 +179,7 @@
 				6BED0039282091C400E5420A /* ContentView.swift */,
 				6BED006B282229D000E5420A /* PlaceRowView.swift */,
 				6BED006D282229DE00E5420A /* PlaceView.swift */,
+				6BA538D8282E25F600707D4D /* MapView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -337,6 +340,7 @@
 				6BED006A282229B900E5420A /* PlaceViewModel.swift in Sources */,
 				6BED003A282091C400E5420A /* ContentView.swift in Sources */,
 				6BED007A282CD37E00E5420A /* CoordinateRegionViewModel.swift in Sources */,
+				6BA538D9282E25F600707D4D /* MapView.swift in Sources */,
 				6BED0038282091C400E5420A /* Assignment2App.swift in Sources */,
 				6BED0044282091C700E5420A /* Assignment2.xcdatamodeld in Sources */,
 			);

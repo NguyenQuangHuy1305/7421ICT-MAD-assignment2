@@ -8,6 +8,7 @@
 import Foundation
 import CoreData
 import SwiftUI
+import MapKit
 
 let defaultImage = Image(systemName: "photo")
 var downloadedImages = [URL : Image]()
@@ -40,6 +41,20 @@ extension Place {
         set {
             guard let url = URL(string: newValue) else { return }
             imageURL = url
+            save()
+        }
+    }
+    var placeLatitude: Double{
+        get { latitude ?? 0}
+        set {
+            latitude = newValue
+            save()
+        }
+    }
+    var placeLongitude: Double{
+        get { longitude ?? 0}
+        set {
+            longitude = newValue
             save()
         }
     }

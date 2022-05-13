@@ -14,6 +14,4 @@ extension Area {
         get { areaName ?? "" }
         set { areaName = newValue }
     }
-    
-    
 }

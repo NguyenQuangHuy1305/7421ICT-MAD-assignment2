@@ -9,6 +9,7 @@ import Foundation
 import MapKit
 
 extension MKCoordinateRegion {
+    /// when a newValue was assigned to center.latitude, transform newValue into CLLocationDegrees then assign it to center.latitude
     var latitudeString: String {
         get { "\(center.latitude)" }
         set {
@@ -16,6 +17,8 @@ extension MKCoordinateRegion {
             center.latitude = degrees
         }
     }
+    
+    /// when a newValue was assigned to center.longitude, transform newValue into CLLocationDegrees then assign it to center.longitude
     var longitudeString: String {
         get { "\(center.longitude)" }
         set {

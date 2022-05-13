@@ -15,7 +15,13 @@ struct MapView: View {
     var body: some View {
         Map(coordinateRegion: $region)
             .ignoresSafeArea()
-        TextField("Latitude: ", text: $region.latitudeString)
-        TextField("Longitude: ", text: $region.longitudeString)
+        HStack {
+            Text("Latitude:")
+            TextField("Latitude: ", text: $region.latitudeString)
+        }
+        HStack {
+            Text("Longitude:")
+            TextField("Longitude: ", text: $region.longitudeString)
+        }
     }
 }

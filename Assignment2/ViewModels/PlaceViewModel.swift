@@ -22,6 +22,8 @@ extension Place {
             save()
         }
     }
+    
+    /// viewModel's property for "location" database attribute
     var placeLocation: String {
         get { location ?? "Input the location here" }
         set {
@@ -29,6 +31,8 @@ extension Place {
             save()
         }
     }
+    
+    /// viewModel's property for "note" database attribute
     var placeNote: String {
         get { note ?? "Input your note here"}
         set {
@@ -36,6 +40,8 @@ extension Place {
             save()
         }
     }
+    
+    /// viewModel's property for "imageURL" database attribute
     var urlString: String{
         get { imageURL?.absoluteString ?? "Input your URL here"}
         set {
@@ -44,21 +50,26 @@ extension Place {
             save()
         }
     }
-    var placeLatitude: Double{
-        get { latitude ?? 0}
+    
+    /// viewModel's property for "latitudeText" database attribute
+    var placeLatitude: String {
+        get { latitudeText ?? "Input latitude here"}
         set {
-            latitude = newValue
-            save()
-        }
-    }
-    var placeLongitude: Double{
-        get { longitude ?? 0}
-        set {
-            longitude = newValue
+            latitudeText = newValue
             save()
         }
     }
     
+    /// viewModel's property for "longitudeText" database attribute
+    var placeLongitude: String {
+        get { longitudeText ?? "Input longitude here"}
+        set {
+            longitudeText = newValue
+            save()
+        }
+    }
+    
+    /// function to save
     @discardableResult
     func save() -> Bool {
         do {
@@ -70,6 +81,8 @@ extension Place {
         return true
     }
     
+    /// function to get the image, while the image was being downloaded, display the default image instead
+    /// if the image has already been downloaded (already in image library), then get the image from library in stead of re-downloading
     func getImage() async -> Image {
         // if there's no URL then return the default image
         guard let url = imageURL else { return defaultImage }

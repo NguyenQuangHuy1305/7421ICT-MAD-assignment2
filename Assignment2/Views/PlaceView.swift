@@ -24,10 +24,26 @@ struct PlaceView: View {
                 TextField("Enter place's location", text: $place.placeLocation)
                 TextField("Enter place's note", text: $place.placeNote)
                 TextField("Enter place's image URL", text: $place.urlString)
+                HStack {
+                    Text("Latitude: ")
+                    TextField("Enter place's latitude", text: $place.placeLatitude)
+                }
+                HStack {
+                    Text("Longitude: ")
+                    TextField("Enter place's longitude", text: $place.placeLongitude)
+                }
             } else {
                 Text(place.placeLocation)
                 Text(place.placeNote)
                 image.aspectRatio(contentMode: .fit)
+                HStack {
+                    Text("Latitude: ")
+                    Text(place.placeLatitude)
+                }
+                HStack {
+                    Text("Longitude: ")
+                    Text(place.placeLongitude)
+                }
             }
             NavigationLink {
                 MapView(region: $region)

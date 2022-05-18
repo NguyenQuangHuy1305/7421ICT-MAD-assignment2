@@ -52,19 +52,30 @@ extension Place {
     }
     
     /// viewModel's property for "latitudeText" database attribute
-    var placeLatitude: String {
-        get { latitudeText ?? "Input latitude here"}
+    var placeLatitude: Double {
+        get { latitudeText ?? 0 }
         set {
+//            guard let latitudeText = Double(newValue) else {return}
             latitudeText = newValue
             save()
         }
     }
-    
+
     /// viewModel's property for "longitudeText" database attribute
-    var placeLongitude: String {
-        get { longitudeText ?? "Input longitude here"}
+    var placeLongitude: Double {
+        get { longitudeText ?? 0 }
         set {
             longitudeText = newValue
+            save()
+        }
+    }
+//
+    var region: MKCoordinateRegion {
+        get {
+            MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: latitudeText, longitude: longitudeText), span: MKCoordinateSpan(latitudeDelta: 0.1, longitudeDelta: 0.1))
+        } set {
+            latitudeText = newValue.center.latitude
+            longitudeText = newValue.center.longitude
             save()
         }
     }

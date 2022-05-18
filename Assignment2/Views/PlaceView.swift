@@ -14,7 +14,14 @@ struct PlaceView: View {
     @ObservedObject var place: Place
     @State var image = Image(systemName: "photo")
     
-    @State var region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: -27.47, longitude: 153.02), latitudinalMeters: 5000, longitudinalMeters: 5000)
+    let formatter: NumberFormatter = {
+        let temp = NumberFormatter()
+        temp.allowsFloats = true
+        temp.numberStyle = .decimal
+        return temp
+    }()
+        
+//    @State var region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: -27.47, longitude: 153.02), latitudinalMeters: 5000, longitudinalMeters: 5000)
 
     
     var body: some View {
@@ -26,11 +33,11 @@ struct PlaceView: View {
                 TextField("Enter place's image URL", text: $place.urlString)
                 HStack {
                     Text("Latitude: ")
-                    TextField("Enter place's latitude", text: $place.placeLatitude)
+                    TextField("Enter place's latitude", value: $place.placeLatitude, formatter: formatter)
                 }
                 HStack {
                     Text("Longitude: ")
-                    TextField("Enter place's longitude", text: $place.placeLongitude)
+                    TextField("Enter place's longitude", value: $place.placeLongitude, formatter: formatter)
                 }
             } else {
                 Text(place.placeLocation)
@@ -38,17 +45,20 @@ struct PlaceView: View {
                 image.aspectRatio(contentMode: .fit)
                 HStack {
                     Text("Latitude: ")
-                    Text(place.placeLatitude)
+                    Text("\(place.placeLatitude)")
                 }
                 HStack {
                     Text("Longitude: ")
-                    Text(place.placeLongitude)
+                    Text("\(place.placeLongitude)")
                 }
             }
             NavigationLink {
-                MapView(region: $region)
+                MapView(region: $place.region, region2: place.region)
             } label: {
-                Map(coordinateRegion: $region)
+                HStack {
+//                    Map(coordinateRegion: $place.region)
+                    Text("\(place.placeName)'s map")
+                }
             }
         }
         .navigationTitle(place.placeName)

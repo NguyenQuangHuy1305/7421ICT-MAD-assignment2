@@ -30,10 +30,10 @@ struct ContentView: View {
                 .onDelete(perform: deletePlaces)
             }
             .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
+                ToolbarItem(placement: .navigationBarLeading) {
                     EditButton()
                 }
-                ToolbarItem {
+                ToolbarItem(placement: .navigationBarTrailing) {
                     Button(action: addPlace) {
                         Label("Add Place", systemImage: "plus")
                     }
@@ -43,6 +43,8 @@ struct ContentView: View {
         }
     }
 
+    
+    // note: Move all CRUD func to ViewModel
     private func addPlace() {
         withAnimation {
             let newPlace = Place(context: viewContext)

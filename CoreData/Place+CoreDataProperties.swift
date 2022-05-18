@@ -20,7 +20,7 @@ extension Place {
     @NSManaged public var location: String?
     @NSManaged public var note: String?
     @NSManaged public var imageURL: URL?
-    @NSManaged public var latitudeText: String?
-    @NSManaged public var longitudeText: String?
+    @NSManaged public var latitudeText: Double?
+    @NSManaged public var longitudeText: Double?
 
 }

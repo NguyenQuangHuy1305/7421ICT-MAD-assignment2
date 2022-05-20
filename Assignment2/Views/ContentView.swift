@@ -45,6 +45,7 @@ struct ContentView: View {
 
     
     // note: Move all CRUD func to ViewModel
+    /// function to add a new Place
     private func addPlace() {
         withAnimation {
             let newPlace = Place(context: viewContext)
@@ -58,7 +59,9 @@ struct ContentView: View {
             }
         }
     }
-
+    
+    /// function to delete a Place at the offsets
+    /// - Parameter offsets: a set of int generated when the user swipe a row
     private func deletePlaces(offsets: IndexSet) {
         withAnimation {
             offsets.map { Places[$0] }.forEach(viewContext.delete)
@@ -75,15 +78,9 @@ struct ContentView: View {
     }
 }
 
-private let PlaceFormatter: DateFormatter = {
-    let formatter = DateFormatter()
-    formatter.dateStyle = .short
-    formatter.timeStyle = .medium
-    return formatter
-}()
-
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView().environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
-    }
-}
+//private let PlaceFormatter: DateFormatter = {
+//    let formatter = DateFormatter()
+//    formatter.dateStyle = .short
+//    formatter.timeStyle = .medium
+//    return formatter
+//}()

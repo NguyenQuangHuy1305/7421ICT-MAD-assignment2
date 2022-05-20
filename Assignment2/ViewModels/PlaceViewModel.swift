@@ -13,6 +13,7 @@ import MapKit
 let defaultImage = Image(systemName: "photo")
 var downloadedImages = [URL : Image]()
 
+/// extension for Place (which is a class)
 extension Place {
     /// viewModel's property for "name" database attribute
     var placeName: String {
@@ -77,16 +78,18 @@ extension Place {
 //            coordinate = newValue
 //        }
 //    }
-////
+    
+    /// regionMini is for displaying the miniMap only, since it;s purpose is for displaying only, it will not need any setter
     var regionMini: MKCoordinateRegion {
         get {
             MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: placeLatitude, longitude: placeLongitude), span: MKCoordinateSpan(latitudeDelta: 0.1, longitudeDelta: 0.1))
         }
         set {
-            // do nothing
+            /// do nothing
         }
     }
     
+    /// this var is created because we cannot directly modify var region, we need to modify var coordinates, then "inject" the lat and lon into var region
     var coordinate: CLLocationCoordinate2D {
         get {
             CLLocationCoordinate2D(latitude: placeLatitude, longitude: placeLongitude)
@@ -97,7 +100,7 @@ extension Place {
         }
     }
     
-    /// function to save
+    /// function to save, discardable return
     @discardableResult
     func save() -> Bool {
         do {

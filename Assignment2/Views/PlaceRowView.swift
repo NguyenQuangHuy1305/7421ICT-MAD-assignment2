@@ -17,6 +17,7 @@ struct PlaceRowView: View {
             image.frame(width: 30, height: 20)
             Text(place.placeName)
             .task {
+                /// wait for the place.getImage() function before actually displaying the image
                 image = await place.getImage()
             }
         }

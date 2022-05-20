@@ -53,30 +53,47 @@ extension Place {
     
     /// viewModel's property for "latitudeText" database attribute
     var placeLatitude: Double {
-        get { latitudeText ?? 0 }
+        get { latitude ?? 0 }
         set {
 //            guard let latitudeText = Double(newValue) else {return}
-            latitudeText = newValue
+            latitude = newValue
             save()
         }
     }
 
     /// viewModel's property for "longitudeText" database attribute
     var placeLongitude: Double {
-        get { longitudeText ?? 0 }
+        get { longitude ?? 0 }
         set {
-            longitudeText = newValue
+            longitude = newValue
             save()
         }
     }
-//
-    var region: MKCoordinateRegion {
+    
+//    var placeCoordinate: Location {
+//        get {
+//            coordinate ?? Location(context: self.managedObjectContext!)
+//        } set {
+//            coordinate = newValue
+//        }
+//    }
+////
+    var regionMini: MKCoordinateRegion {
         get {
-            MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: latitudeText, longitude: longitudeText), span: MKCoordinateSpan(latitudeDelta: 0.1, longitudeDelta: 0.1))
-        } set {
-            latitudeText = newValue.center.latitude
-            longitudeText = newValue.center.longitude
-            save()
+            MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: placeLatitude, longitude: placeLongitude), span: MKCoordinateSpan(latitudeDelta: 0.1, longitudeDelta: 0.1))
+        }
+        set {
+            // do nothing
+        }
+    }
+    
+    var coordinate: CLLocationCoordinate2D {
+        get {
+            CLLocationCoordinate2D(latitude: placeLatitude, longitude: placeLongitude)
+        }
+        set {
+            latitude = newValue.latitude
+            longitude = newValue.longitude
         }
     }
     

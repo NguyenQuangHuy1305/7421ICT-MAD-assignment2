@@ -48,7 +48,6 @@ struct ContentView: View {
     private func addPlace() {
         withAnimation {
             let newPlace = Place(context: viewContext)
-
             do {
                 try viewContext.save()
             } catch {

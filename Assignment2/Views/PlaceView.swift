@@ -21,8 +21,8 @@ struct PlaceView: View {
         return temp
     }()
         
-//    @State var region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: -27.47, longitude: 153.02), latitudinalMeters: 5000, longitudinalMeters: 5000)
-
+//    @State var regionMini = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 0, longitude: 0), latitudinalMeters: 5000, longitudinalMeters: 5000)
+//    @State var coordinate = CLLocationCoordinate2D(latitude: place.placeLatitude, longitude: place.placeLongitude)
     
     var body: some View {
         List {
@@ -53,10 +53,10 @@ struct PlaceView: View {
                 }
             }
             NavigationLink {
-                MapView(region: $place.region, region2: place.region)
+                MapView(coordinates: $place.coordinate)
             } label: {
                 HStack {
-//                    Map(coordinateRegion: $place.region)
+                    Map(coordinateRegion: $place.regionMini).frame(width: 100, height: 50)
                     Text("\(place.placeName)'s map")
                 }
             }

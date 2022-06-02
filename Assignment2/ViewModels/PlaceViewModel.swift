@@ -100,14 +100,7 @@ extension Place {
         }
     }
     
-    var sunriseSunset: SunriseSunset {
-        get {
-            SunriseSunset(sunrise: "unknown", sunset: "unknown")
-        }
-        set {
-
-        }
-    }
+//    @Published var sunriseSunset = SunriseSunset(sunrise: "unknown", sunset: "unknown")
     
     /// function to save, discardable return
     @discardableResult
@@ -183,20 +176,21 @@ extension Place {
         }
     }
     
-    func lookUpSunriseSunset() {
-        let urlString = "https://api.sunrise-sunset.org/json?lat=\(placeLatitude)&lng=\(placeLongitude)"
-        guard let url = URL(string: urlString) else {
-            print("Malformed URL: \(urlString)")
-            return
-        }
-        guard let jsonData = try? Data(contentsOf: url) else {
-            print("Could not look up sunrise and sunset")
-            return
-        }
-        guard let api = try? JSONDecoder().decode(SunriseSunsetAPI.self, from:jsonData) else {
-            print("Could not decode JSON API data")
-            return
-        }
-        sunriseSunset = api.results
-    }
+//    func lookUpSunriseSunset() {
+//        let urlString = "https://api.sunrise-sunset.org/json?lat=\(placeLatitude)&lng=\(placeLongitude)"
+//        guard let url = URL(string: urlString) else {
+//            print("Malformed URL: \(urlString)")
+//            return
+//        }
+//        guard let jsonData = try? Data(contentsOf: url) else {
+//            print("Could not look up sunrise and sunset")
+//            return
+//        }
+//        guard let api = try? JSONDecoder().decode(SunriseSunsetAPI.self, from:jsonData) else {
+//            print("Could not decode JSON API data")
+//            return
+//        }
+//        sunriseSunset = api.results
+////        return api.results
+//    }
 }

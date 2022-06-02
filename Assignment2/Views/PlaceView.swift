@@ -10,7 +10,11 @@ import SwiftUI
 import MapKit
 
 struct PlaceView: View {
+    
     @Environment(\.editMode) var editMode
+
+//    @ObservedObject var viewModel: PlaceViewModel1
+    
     @ObservedObject var place: Place
     @State var image = Image(systemName: "photo")
     @State var sunriseSunset = SunriseSunset(sunrise: "unknown", sunset: "unknown")
@@ -65,17 +69,14 @@ struct PlaceView: View {
                 Text(place.placeNote)
                 ///  fit the image
                 image.aspectRatio(contentMode: .fit)
-                HStack {
-                    Text("Latitude: ")
-                    Text("\(place.placeLatitude)")
-                }
-                HStack {
-                    Text("Longitude: ")
-                    Text("\(place.placeLongitude)")
-                }
-                Button("Look up sunrise and sunset") {
-                    place.lookUpSunriseSunset()
-                }
+//                HStack {
+//                    Text("Latitude: ")
+//                    Text("\(place.placeLatitude)")
+//                }
+//                HStack {
+//                    Text("Longitude: ")
+//                    Text("\(place.placeLongitude)")
+//                }
             }
             NavigationLink {
                 /// pass the place.coordinate into MapView, which contain ONLY the latitude and longitude of current Place

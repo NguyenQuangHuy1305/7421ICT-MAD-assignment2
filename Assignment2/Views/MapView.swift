@@ -9,14 +9,27 @@ import SwiftUI
 import MapKit
 import CoreLocation
 
+
+//struct SomeView: View {
+//    
+//    @ObservedObjecrt var viewModel: ViewModel
+//    
+//    var body: some View {
+//        TextField("", value: $viewModel.latitude, formatter: Formatter())
+//    }
+//    
+//}
+
 struct MapView: View {
     
     @Environment(\.editMode) var editMode
     
     /// var we got from PlaceView
     @Binding var coordinates: CLLocationCoordinate2D
+    /// place passed in from ContentView -> PlaceView -> MapView
     @ObservedObject var place: Place
-    var sunriseSunset = SunriseSunset(sunrise: "unknown", sunset: "unknown")
+    
+    @State var sunriseSunset = SunriseSunset(sunrise: "unknown", sunset: "unknown")
 
     /// initiate the region for Map(), the initial latitude and longitude will be 0, will be replace later with .onAppear(), the latitude and longitude comes from coordinate var
     @State var region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 0, longitude: 0), latitudinalMeters: 5000, longitudinalMeters: 5000)
@@ -43,6 +56,7 @@ struct MapView: View {
                     TextField("Enter place's name", text: $nameTemp)
                 }
             }
+            
             Map(coordinateRegion: $region)
                 .ignoresSafeArea()
                 .toolbar {
@@ -70,7 +84,9 @@ struct MapView: View {
                         }
                     }
                     Button("Search coordinate", action: {
+                        /// when this button is clicked, assign the current nameTemp (whatevver is currently in the TextField) to place.placeName
                         place.placeName = nameTemp
+                        /// then call this
                         place.lookUpCoordinates(for: place.placeName)
                     })
                 }
@@ -95,12 +111,30 @@ struct MapView: View {
                     Label(sunriseSunset.sunset, systemImage: "sunset")
                 }
                 Button("Look up sunrise and sunset") {
-                    place.lookUpSunriseSunset()
+                    lookUpSunriseSunset()
                 }
             }
         }.onAppear {
             /// everytime MapView is loaded, latitude and longitude from var coordinate will be "injected"" to var region
             region.center = coordinates
         }
+    }
+    
+    func lookUpSunriseSunset() {
+        let urlString = "https://api.sunrise-sunset.org/json?lat=\(place.placeLatitude)&lng=\(place.placeLongitude)"
+        guard let url = URL(string: urlString) else {
+            print("Malformed URL: \(urlString)")
+            return
+        }
+        guard let jsonData = try? Data(contentsOf: url) else {
+            print("Could not look up sunrise and sunset")
+            return
+        }
+        guard let api = try? JSONDecoder().decode(SunriseSunsetAPI.self, from:jsonData) else {
+            print("Could not decode JSON API data")
+            return
+        }
+        sunriseSunset = api.results
+//        return api.results
     }
 }

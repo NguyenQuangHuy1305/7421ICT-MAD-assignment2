@@ -60,10 +60,10 @@ struct PlaceView: View {
                     /// ultilize the formatter to ensure user doesn't input non decimal values
                     TextField("Enter place's longitude", value: $place.placeLongitude, formatter: formatter)
                 }
-                .onDisappear {
+//                .onDisappear {
 //                    place.lookUpCoordinates(for: place.placeName)
-                    place.lookUpName(for: place.coordinate)
-                }
+//                    place.lookUpName(for: place.coordinate)
+//                }
             } else {
                 Text(place.placeLocation)
                 Text(place.placeNote)
@@ -80,7 +80,9 @@ struct PlaceView: View {
             }
             NavigationLink {
                 /// pass the place.coordinate into MapView, which contain ONLY the latitude and longitude of current Place
-                MapView(coordinates: $place.coordinate, place: place)
+//                MapView(coordinates: $place.coordinate, place: place)
+                
+                MapView(viewModel: MapViewModel(place))
             } label: {
                 HStack {
                     /// use Map() function with place.regionMini, which is a var that only have getter (setter does nothing) --> for displaying miniMap ONLY

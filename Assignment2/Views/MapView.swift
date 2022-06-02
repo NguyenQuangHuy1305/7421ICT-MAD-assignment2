@@ -7,8 +7,7 @@
 
 import SwiftUI
 import MapKit
-
-// [place] <-> [Location]
+import CoreLocation
 
 struct MapView: View {
     
@@ -16,9 +15,13 @@ struct MapView: View {
     
     /// var we got from PlaceView
     @Binding var coordinates: CLLocationCoordinate2D
-    
+    @ObservedObject var place: Place
+    var sunriseSunset = SunriseSunset(sunrise: "unknown", sunset: "unknown")
+
     /// initiate the region for Map(), the initial latitude and longitude will be 0, will be replace later with .onAppear(), the latitude and longitude comes from coordinate var
     @State var region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 0, longitude: 0), latitudinalMeters: 5000, longitudinalMeters: 5000)
+    
+    @State var nameTemp = ""
         
     /// this formatter is currently unused
     let formatter: NumberFormatter = {
@@ -30,32 +33,53 @@ struct MapView: View {
 
     var body: some View {
         VStack {
+            if editMode?.wrappedValue == .active {
+                HStack {
+                    Button {
+                        place.lookUpName(for: region.center)
+                    } label: {
+                        Label("Place name: ", systemImage: "text.magnifyingglass")
+                    }
+                    TextField("Enter place's name", text: $nameTemp)
+                }
+            }
             Map(coordinateRegion: $region)
                 .ignoresSafeArea()
                 .toolbar {
                     ToolbarItem(placement: .navigationBarTrailing) {
                         EditButton()
                     }
-                }
+                }.navigationTitle("Map of \(place.placeName)")
+
             
             /// if the user enter editmode, they can change latitude and longitude OF THE VAR COORDINATES, not of region, latitude and longitude FROM COORDINATES will later be injected to region .onAppear(). The reason we need to do this, is bcs if we change region.latitude and region.longitude directly, the PlaceView got redrawn -> we got kicked out of MapView
             if editMode?.wrappedValue == .active {
-                HStack {
-                    Text("Latitude:")
-                    TextField("Latitude: ", text: $region.latitudeString) {
-                        /// when text in TextField changed, assign latitude to coordinates.latitude
-                        coordinates.latitude = region.center.latitude
+                VStack {
+                    HStack {
+                        Text("Latitude:")
+                        TextField("Latitude: ", text: $region.latitudeString) {
+                            /// when text in TextField changed, assign latitude to coordinates.latitude
+                            coordinates.latitude = region.center.latitude
+                        }
                     }
+                    HStack {
+                        Text("Longitude:")
+                        TextField("Longitude: ", text: $region.longitudeString) {
+                            /// when text in TextField changed, assign longitude to coordinates.longitude
+                            coordinates.longitude = region.center.longitude
+                        }
+                    }
+                    Button("Search coordinate", action: {
+                        place.placeName = nameTemp
+                        place.lookUpCoordinates(for: place.placeName)
+                    })
                 }
-                HStack {
-                    Text("Longitude:")
-                    TextField("Longitude: ", text: $region.longitudeString) {
-                        /// when text in TextField changed, assign longitude to coordinates.longitude
-                        coordinates.longitude = region.center.longitude
-                    }
-                }.onDisappear {
+                .onDisappear {
                     /// only when the user exit editmode, the value from the current region (current map) will be injected to var coordinates
+                    /// then the MapView will still redraw --> we stil lgot kicked out of MapView
                     coordinates = region.center
+//                    place.placeName = nameTemp
+//                    place.lookUpCoordinates(for: place.placeName)
                 }
             } else {
                 /// if the user is not in editmode, only display lat and lon as string Text
@@ -64,6 +88,14 @@ struct MapView: View {
                 }
                 HStack {
                     Text("Longitude: \(region.center.longitude)")
+                }
+                HStack {
+                    Label(sunriseSunset.sunrise, systemImage: "sunrise")
+                    Spacer()
+                    Label(sunriseSunset.sunset, systemImage: "sunset")
+                }
+                Button("Look up sunrise and sunset") {
+                    place.lookUpSunriseSunset()
                 }
             }
         }.onAppear {

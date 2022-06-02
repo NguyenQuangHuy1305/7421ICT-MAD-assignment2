@@ -7,9 +7,10 @@
 
 import Foundation
 import MapKit
+import CoreLocation
 
 /// this is the extension for the MKCoordinateRegion, used in MapView to display region.latitudeString
-extension MKCoordinateRegion {
+extension MKCoordinateRegion {    
     /// when a newValue was assigned to center.latitude, transform newValue into CLLocationDegrees then assign it to center.latitude
     var latitudeString: String {
         get { "\(center.latitude)" }

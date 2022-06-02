@@ -13,6 +13,7 @@ struct PlaceView: View {
     @Environment(\.editMode) var editMode
     @ObservedObject var place: Place
     @State var image = Image(systemName: "photo")
+    @State var sunriseSunset = SunriseSunset(sunrise: "unknown", sunset: "unknown")
     
     /// formatter to format text to float, useful when the user input an invalid Double, which will return nothing
     let formatter: NumberFormatter = {
@@ -29,10 +30,22 @@ struct PlaceView: View {
         List {
             /// if the user press the edit button, display TextField() instead of Text()
             if editMode?.wrappedValue == .active {
-                TextField("Enter place's name", text: $place.placeName)
-                TextField("Enter place's location", text: $place.placeLocation)
-                TextField("Enter place's note", text: $place.placeNote)
-                TextField("Enter place's image URL", text: $place.urlString)
+                HStack {
+                    Text("Place's name: ")
+                    TextField("Enter place's name", text: $place.placeName)
+                }
+                HStack {
+                    Text("Place's location: ")
+                    TextField("Enter place's location", text: $place.placeLocation)
+                }
+                HStack {
+                    Text("Place's note: ")
+                    TextField("Enter place's note", text: $place.placeNote)
+                }
+                HStack {
+                    Text("Place's image URL: ")
+                    TextField("Enter place's image URL", text: $place.urlString)
+                }
                 HStack {
                     Text("Latitude: ")
                     /// ultilize the formatter to ensure user doesn't input non decimal values
@@ -42,6 +55,10 @@ struct PlaceView: View {
                     Text("Longitude: ")
                     /// ultilize the formatter to ensure user doesn't input non decimal values
                     TextField("Enter place's longitude", value: $place.placeLongitude, formatter: formatter)
+                }
+                .onDisappear {
+//                    place.lookUpCoordinates(for: place.placeName)
+                    place.lookUpName(for: place.coordinate)
                 }
             } else {
                 Text(place.placeLocation)
@@ -56,10 +73,13 @@ struct PlaceView: View {
                     Text("Longitude: ")
                     Text("\(place.placeLongitude)")
                 }
+                Button("Look up sunrise and sunset") {
+                    place.lookUpSunriseSunset()
+                }
             }
             NavigationLink {
                 /// pass the place.coordinate into MapView, which contain ONLY the latitude and longitude of current Place
-                MapView(coordinates: $place.coordinate)
+                MapView(coordinates: $place.coordinate, place: place)
             } label: {
                 HStack {
                     /// use Map() function with place.regionMini, which is a var that only have getter (setter does nothing) --> for displaying miniMap ONLY

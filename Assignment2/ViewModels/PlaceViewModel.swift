@@ -17,7 +17,7 @@ var downloadedImages = [URL : Image]()
 extension Place {
     /// viewModel's property for "name" database attribute
     var placeName: String {
-        get { name ?? "New Place" }
+        get { name ?? "Enter new place's name here" }
         set {
             name = newValue
             save()
@@ -100,6 +100,15 @@ extension Place {
         }
     }
     
+    var sunriseSunset: SunriseSunset {
+        get {
+            SunriseSunset(sunrise: "unknown", sunset: "unknown")
+        }
+        set {
+
+        }
+    }
+    
     /// function to save, discardable return
     @discardableResult
     func save() -> Bool {
@@ -128,5 +137,66 @@ extension Place {
             print("Error downloading image from URL")
         }
         return defaultImage
+    }
+    
+    func lookUpCoordinates(for placeName: String) {
+        let coder = CLGeocoder()
+        coder.geocodeAddressString(placeName) { optionalPlacemarks, optionalError in
+            if let error = optionalError {
+                print("Error looking up \(placeName): \(error.localizedDescription)")
+                return
+            }
+            guard let placemarks = optionalPlacemarks, !placemarks.isEmpty else {
+                print("Placemarks came back empty")
+                return
+            }
+            /// only get the 1st palcemark
+            let placemark = placemarks[0]
+            guard let location = placemark.location else {
+                print("Placemark has no location")
+                return
+            }
+            
+            /// since coordinate only accept CLLocationCoordinate2D, and the returned location (in this func) is CLLocation, I need to convert from CLLocation to CLLocationCoordinate2D
+            let stuff = CLLocationCoordinate2D(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
+            self.coordinate = stuff
+        }
+    }
+    
+    /// Function to lookup a place's name when given coordinate: CLLocationCoordinate2D
+    /// - Parameter coordinate: each Place has 1 unique var coordinate
+    func lookUpName(for coordinate: CLLocationCoordinate2D) {
+        let stuff = CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
+        
+        let coder = CLGeocoder()
+        coder.reverseGeocodeLocation(stuff) { optionalPlacemarks, optionalError in
+            if let error = optionalError {
+                print("Error looking up \(coordinate): \(error.localizedDescription)")
+                return
+            }
+            guard let placemarks = optionalPlacemarks, !placemarks.isEmpty else {
+                print("Placemarks came back empty")
+                return
+            }
+            let placemark = placemarks[0]
+            self.placeName = placemark.name ?? placemark.subAdministrativeArea ?? placemark.locality ?? placemark.subLocality ?? placemark.thoroughfare ?? placemark.subThoroughfare ?? placemark.country ?? ""
+        }
+    }
+    
+    func lookUpSunriseSunset() {
+        let urlString = "https://api.sunrise-sunset.org/json?lat=\(placeLatitude)&lng=\(placeLongitude)"
+        guard let url = URL(string: urlString) else {
+            print("Malformed URL: \(urlString)")
+            return
+        }
+        guard let jsonData = try? Data(contentsOf: url) else {
+            print("Could not look up sunrise and sunset")
+            return
+        }
+        guard let api = try? JSONDecoder().decode(SunriseSunsetAPI.self, from:jsonData) else {
+            print("Could not decode JSON API data")
+            return
+        }
+        sunriseSunset = api.results
     }
 }

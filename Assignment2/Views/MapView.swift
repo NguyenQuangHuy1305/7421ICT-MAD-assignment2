@@ -24,21 +24,11 @@ struct MapView: View {
     
     @Environment(\.editMode) var editMode
     
-    // get rid of these
-    /// var we got from PlaceView
-//    @Binding var coordinates: CLLocationCoordinate2D
-    /// place passed in from ContentView -> PlaceView -> MapView
-//    @ObservedObject var place: Place
-    
     @ObservedObject var viewModel: MapViewModel
     
-//    @State var sunriseSunset = SunriseSunset(sunrise: "unknown", sunset: "unknown")
-
     /// initiate the region for Map(), the initial latitude and longitude will be 0, will be replace later with .onAppear(), the latitude and longitude comes from coordinate var
     @State var region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 0, longitude: 0), latitudinalMeters: 5000, longitudinalMeters: 5000)
-    
-//    @State var nameTemp = ""
-        
+            
     /// this formatter is currently unused
     let formatter: NumberFormatter = {
         let temp = NumberFormatter()
@@ -77,17 +67,11 @@ struct MapView: View {
                 VStack {
                     HStack {
                         Text("Latitude:")
-                        TextField("Latitude: ", text: $region.latitudeString) {
-                            /// when text in TextField changed, assign latitude to coordinates.latitude
-                            viewModel.place.coordinate.latitude = region.center.latitude
-                        }
+                        TextField("Latitude: ", text: $region.latitudeString)
                     }
                     HStack {
                         Text("Longitude:")
-                        TextField("Longitude: ", text: $region.longitudeString) {
-                            /// when text in TextField changed, assign longitude to coordinates.longitude
-                            viewModel.place.coordinate.longitude = region.center.longitude
-                        }
+                        TextField("Longitude: ", text: $region.longitudeString)
                     }
                     Button("Search coordinate", action: {
                         viewModel.lookUpName(for: region.center)
@@ -97,8 +81,6 @@ struct MapView: View {
                     /// only when the user exit editmode, the value from the current region (current map) will be injected to var coordinates
                     /// then the MapView will still redraw --> we stil lgot kicked out of MapView
                     viewModel.place.coordinate = region.center
-//                    place.placeName = nameTemp
-//                    place.lookUpCoordinates(for: place.placeName)
                 }
             } else {
                 /// if the user is not in editmode, only display lat and lon as string Text
@@ -119,44 +101,9 @@ struct MapView: View {
             region.center = viewModel.place.coordinate
         }
         .task {
+            /// here I await the function loopUpSunriseSunset() to finish before actually displaying the sunrise and sunset string
+            ///  by default sunrise and sunset string will both be unknown
             viewModel.sunriseSunset = await viewModel.lookUpSunriseSunset()
         }
     }
-    
-//    func lookUpSunriseSunset() async -> SunriseSunset {
-//        let urlString = "https://api.sunrise-sunset.org/json?lat=\(place.placeLatitude)&lng=\(place.placeLongitude)"
-//        guard let url = URL(string: urlString) else {
-//            print("Malformed URL: \(urlString)")
-//            return sunriseSunset
-//        }
-//        guard let jsonData = try? Data(contentsOf: url) else {
-//            print("Could not look up sunrise and sunset")
-//            return sunriseSunset
-//        }
-//        guard let api = try? JSONDecoder().decode(SunriseSunsetAPI.self, from:jsonData) else {
-//            print("Could not decode JSON API data")
-//            return sunriseSunset
-//        }
-//        let inputFormatter = DateFormatter()
-//        inputFormatter.dateStyle = .none
-//        inputFormatter.timeStyle = .medium
-//        inputFormatter.timeZone = .init(secondsFromGMT: 0)
-//
-//        let outputFormatter = DateFormatter()
-//        outputFormatter.dateStyle = .none
-//        outputFormatter.timeStyle = .medium
-//        // think of another way to get current timezone
-//        outputFormatter.timeZone = .current
-//
-//        var converted = api.results
-//
-//        if let time = inputFormatter.date(from: api.results.sunrise) {
-//            converted.sunrise = outputFormatter.string(from: time)
-//        }
-//        if let time = inputFormatter.date(from: api.results.sunset) {
-//            converted.sunset = outputFormatter.string(from: time)
-//        }
-//        sunriseSunset = converted
-//        return sunriseSunset
-//    }
 }

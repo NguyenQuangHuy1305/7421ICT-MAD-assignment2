@@ -39,6 +39,7 @@ struct ContentView: View {
                     }
                 }
             }
+            .navigationTitle("Places App")
             Text("Select an Place")
         }
     }

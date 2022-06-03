@@ -14,6 +14,7 @@ let defaultImage = Image(systemName: "photo")
 var downloadedImages = [URL : Image]()
 
 /// extension for Place (which is a class)
+/// also act as a ViewModel to store all func relating to PlaceView
 extension Place {
     /// viewModel's property for "name" database attribute
     var placeName: String {
@@ -54,7 +55,7 @@ extension Place {
     
     /// viewModel's property for "latitudeText" database attribute
     var placeLatitude: Double {
-        get { latitude ?? 0 }
+        get { latitude }
         set {
 //            guard let latitudeText = Double(newValue) else {return}
             latitude = newValue
@@ -64,22 +65,14 @@ extension Place {
 
     /// viewModel's property for "longitudeText" database attribute
     var placeLongitude: Double {
-        get { longitude ?? 0 }
+        get { longitude }
         set {
             longitude = newValue
             save()
         }
     }
     
-//    var placeCoordinate: Location {
-//        get {
-//            coordinate ?? Location(context: self.managedObjectContext!)
-//        } set {
-//            coordinate = newValue
-//        }
-//    }
-    
-    /// regionMini is for displaying the miniMap only, since it;s purpose is for displaying only, it will not need any setter
+    /// regionMini is for displaying the miniMap only, since it's purpose is for displaying only, it will not need any setter
     var regionMini: MKCoordinateRegion {
         get {
             MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: placeLatitude, longitude: placeLongitude), span: MKCoordinateSpan(latitudeDelta: 0.1, longitudeDelta: 0.1))
@@ -89,7 +82,7 @@ extension Place {
         }
     }
     
-    /// this var is created because we cannot directly modify var region, we need to modify var coordinates, then "inject" the lat and lon into var region
+    /// when modifying a place's lat and lon, the lat and lon will first be modified in the var region, then only after the editmode disappear (.onDisappear), the coordinate will be updated (which in turn kick me back to PlaceView
     var coordinate: CLLocationCoordinate2D {
         get {
             CLLocationCoordinate2D(latitude: placeLatitude, longitude: placeLongitude)
@@ -99,9 +92,7 @@ extension Place {
             longitude = newValue.longitude
         }
     }
-    
-//    @Published var sunriseSunset = SunriseSunset(sunrise: "unknown", sunset: "unknown")
-    
+        
     /// function to save, discardable return
     @discardableResult
     func save() -> Bool {
